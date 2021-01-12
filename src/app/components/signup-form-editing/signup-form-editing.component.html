@@ -1,0 +1,49 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="signupForm" class="space-y-4">
+  <h3 class="text-lg font-medium leading-6 text-gray-900">Signup form</h3>
+
+  <p class="text-sm text-gray-600">
+    Please enter your signup details. All fields are required.
+  </p>
+
+  <!-- Render all form fields -->
+  <div *ngFor="let field of signupFields" class="space-y-2">
+    <label [for]="field.name" class="block text-sm font-medium text-gray-700">
+      {{ field.label }}
+    </label>
+
+    <div class="space-y-1">
+      <input
+        type="text"
+        [id]="field.name"
+        [name]="field.name"
+        [type]="field.type || 'text'"
+        [formControlName]="field.name"
+        class="shadow-inner focus:ring-blue-400 focus:border-blue-400 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+      />
+
+      <!-- Form field errors -->
+      <p
+        *ngFor="let error of getErrorsForControlName(field.name)"
+        class="text-red-500 text-xs"
+      >
+        {{ error }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Global form errors -->
+  <p
+    *ngFor="let error of getErrorsForControl(signupForm)"
+    class="text-red-500 text-xs"
+  >
+    {{ error }}
+  </p>
+
+  <button
+    type="submit"
+    class="disabled:opacity-20 justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-900 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+    [disabled]="signupForm.invalid"
+  >
+    Let's go!
+  </button>
+</form>

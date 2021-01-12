@@ -3,121 +3,25 @@
     class="bg-gray-100 rounded-lg shadow-lg p-8 text-gray-700 w-1/2 max-w-xl"
   >
     <!-- STATUS = SUCCESS -->
-    <div
+    <app-signup-form-success
       *ngIf="(status$ | async) === STATUS.SUCCESS"
-      data-status="SUCCESS"
-      class="space-y-4"
-    >
-      <h3 class="text-lg font-medium leading-6 text-gray-900">
-        Signup complete!
-      </h3>
-
-      <p class="text-sm text-gray-600">Thank you for signing up.</p>
-    </div>
+    ></app-signup-form-success>
 
     <!-- STATUS = FAILED -->
-    <div *ngIf="(status$ | async) === STATUS.FAILED" class="space-y-4">
-      <h3 class="text-lg font-medium leading-6 text-gray-900">
-        Signup failed!
-      </h3>
-
-      <p class="text-sm text-gray-600">
-        Something went wrong. Please try again.
-      </p>
-
-      <button
-        type="button"
-        class="disabled:opacity-20 justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-900 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-        (click)="retry()"
-      >
-        Try again
-      </button>
-    </div>
+    <app-signup-form-failed
+      *ngIf="(status$ | async) === STATUS.FAILED"
+      (retry)="onRetry()"
+    ></app-signup-form-failed>
 
     <!-- STATUS = SENDING -->
-    <div *ngIf="(status$ | async) === STATUS.SENDING" class="space-y-4">
-      <h3 class="text-lg font-medium leading-6 text-gray-900 flex items-center">
-        <svg
-          class="animate-spin mr-3 h-5 w-5 text-gray-900"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        <div>Sending sign up request...</div>
-      </h3>
-    </div>
+    <app-signup-form-sending
+      *ngIf="(status$ | async) === STATUS.SENDING"
+    ></app-signup-form-sending>
 
     <!-- STATUS = EDITING -->
-    <form
+    <app-signup-form-editing
       *ngIf="(status$ | async) === STATUS.EDITING"
-      (ngSubmit)="onSubmit()"
-      [formGroup]="signupForm"
-      class="space-y-4"
-    >
-      <h3 class="text-lg font-medium leading-6 text-gray-900">Signup form</h3>
-
-      <p class="text-sm text-gray-600">
-        Please enter your signup details. All fields are required.
-      </p>
-
-      <!-- Render all form fields -->
-      <div *ngFor="let field of signupFields" class="space-y-2">
-        <label
-          [for]="field.name"
-          class="block text-sm font-medium text-gray-700"
-        >
-          {{ field.label }}
-        </label>
-
-        <div class="space-y-1">
-          <input
-            type="text"
-            [id]="field.name"
-            [name]="field.name"
-            [type]="field.type || 'text'"
-            [formControlName]="field.name"
-            class="shadow-inner focus:ring-blue-400 focus:border-blue-400 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
-          />
-
-          <!-- Form field errors -->
-          <p
-            *ngFor="let error of getErrorsForControlName(field.name)"
-            class="text-red-500 text-xs"
-          >
-            {{ error }}
-          </p>
-        </div>
-      </div>
-
-      <!-- Global form errors -->
-      <p
-        *ngFor="let error of getErrorsForControl(signupForm)"
-        class="text-red-500 text-xs"
-      >
-        {{ error }}
-      </p>
-
-      <button
-        type="submit"
-        class="disabled:opacity-20 justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-900 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-        [disabled]="signupForm.invalid"
-      >
-        Let's go!
-      </button>
-    </form>
+      (send)="onSubmit($event)"
+    ></app-signup-form-editing>
   </div>
 </div>
