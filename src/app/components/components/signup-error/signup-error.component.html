@@ -1,0 +1,5 @@
+<div [formGroup]="formGroup" class="space-y-1">
+  <p *ngFor="let error of getErrors()" class="text-red-500 text-xs">
+    {{ error }}
+  </p>
+</div>

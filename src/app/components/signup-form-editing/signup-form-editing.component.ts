@@ -5,7 +5,6 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup-form-editing',
@@ -104,59 +103,6 @@ export class SignupFormEditingComponent implements OnInit {
     }
 
     return null;
-  }
-
-  /**
-   *
-   * @param control The AbstractControl to be checked
-   * This function returns whether or not the control that is passed has user-caused errors.
-   */
-  isInvalid(control: AbstractControl): boolean {
-    return control && control.errors && (control.dirty || control.touched);
-  }
-
-  /**
-   *
-   * @param controlName The name of the AbstractControl to be checked
-   * This function returns an array of (user-caused) error messages for a control.
-   */
-  getErrorsForControlName(controlName: string): string[] {
-    const formControl = this.signupForm.get(controlName);
-    return this.getErrorsForControl(formControl);
-  }
-
-  /**
-   *
-   * @param control The AbstractControl to be checked
-   * This function returns an array of (user-caused) error messages for a control.
-   */
-  getErrorsForControl(control: AbstractControl): string[] {
-    if (!this.isInvalid(control)) {
-      return [];
-    }
-
-    return Object.entries(control.errors).map(([key, value]) =>
-      this.getErrorMessage(key, value)
-    );
-  }
-
-  /**
-   *
-   * @param key The type of error
-   * @param value Contextual details of the error
-   * This function takes angular form error data andreturns a string with a user=friendly error message.
-   */
-  getErrorMessage(key: string, value: any): string {
-    const messages: { [index: string]: any } = {
-      required: 'This field is required.',
-      email: 'Please enter a valid email address.',
-      minlength: `Minimum ${value.requiredLength} characters.`,
-      pattern: 'Must contain upper and lowercase characters.',
-      passwordIncludesFirstName: 'Password can not include first name.',
-      passwordIncludesLastName: 'Password can not include last name.',
-    };
-
-    return messages[key] || `Unknown validation error ${key}`;
   }
 
   /**
