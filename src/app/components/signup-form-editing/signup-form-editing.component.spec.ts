@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ControlContainer,
-  FormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { SignupErrorComponent } from '../signup-error/signup-error.component';
+import { SignupInputComponent } from '../signup-input/signup-input.component';
 
 import { SignupFormEditingComponent } from './signup-form-editing.component';
 
@@ -16,7 +14,11 @@ describe('SignupFormEditingComponent', () => {
     await TestBed.configureTestingModule({
       providers: [{ provide: FormBuilder, useValue: formBuilder }],
       imports: [ReactiveFormsModule],
-      declarations: [SignupFormEditingComponent],
+      declarations: [
+        SignupFormEditingComponent,
+        SignupInputComponent,
+        SignupErrorComponent,
+      ],
     }).compileComponents();
   });
 

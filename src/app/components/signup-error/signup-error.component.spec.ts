@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SignupErrorComponent } from './signup-error.component';
 
 describe('SignupErrorComponent', () => {
@@ -8,14 +9,20 @@ describe('SignupErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignupErrorComponent ]
-    })
-    .compileComponents();
+      imports: [ReactiveFormsModule],
+      declarations: [SignupErrorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignupErrorComponent);
     component = fixture.componentInstance;
+    component.field = {
+      name: 'firstName',
+    };
+    component.formGroup = new FormGroup({
+      firstName: new FormControl(),
+    });
     fixture.detectChanges();
   });
 

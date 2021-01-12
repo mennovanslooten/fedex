@@ -11,7 +11,7 @@ import { SignupFormFailedComponent } from './components/signup-form-failed/signu
 import { SignupFormEditingComponent } from './components/signup-form-editing/signup-form-editing.component';
 import { SignupFormSendingComponent } from './components/signup-form-sending/signup-form-sending.component';
 import { SignupInputComponent } from './components/signup-input/signup-input.component';
-import { SignupErrorComponent } from './components/components/signup-error/signup-error.component';
+import { SignupErrorComponent } from './components/signup-error/signup-error.component';
 
 @NgModule({
   declarations: [
