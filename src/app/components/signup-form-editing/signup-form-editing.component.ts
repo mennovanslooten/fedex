@@ -26,8 +26,8 @@ export class SignupFormEditingComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern(/[a-z]/),
-          Validators.pattern(/[A-Z]/),
+          Validators.pattern(/[a-z]/), // Must contain lowercase characters
+          Validators.pattern(/[A-Z]/), // Must contain uppercase characters
         ],
       ],
     },
@@ -59,9 +59,6 @@ export class SignupFormEditingComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  /**
-   * Submit handler for the form. Passes form data to SignupService and subscribes to the results.
-   */
   onSubmit() {
     if (!this.signupForm.valid) {
       return;
