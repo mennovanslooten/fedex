@@ -1,10 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { passwordValidator, emailValidator } from '../../validators/validators';
 
 @Component({
   selector: 'app-signup-form-editing',
@@ -24,7 +20,7 @@ export class SignupFormEditingComponent implements OnInit {
     {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [this.emailValidator]],
+      email: ['', [emailValidator]],
       password: [
         '',
         [
@@ -35,7 +31,7 @@ export class SignupFormEditingComponent implements OnInit {
         ],
       ],
     },
-    { validators: [this.passwordValidator.bind(this)] }
+    { validators: [passwordValidator] }
   );
 
   public signupFields = [
@@ -62,74 +58,6 @@ export class SignupFormEditingComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
-
-  /**
-   *
-   * @param control The email control
-   * This method validates the email address against the standard Angular required and email validators.
-   * If those do not produce any errors, the value is checked with a regular expression for a 2+ letter TLD.
-   */
-  emailValidator(control: AbstractControl): ValidationErrors | null {
-    const standardError =
-      Validators.required(control) || Validators.email(control);
-
-    if (standardError) {
-      return standardError;
-    }
-
-    const email = control.value as string;
-    const rx = /@.+\.\w{2,}$/;
-
-    if (!rx.test(email)) {
-      return {
-        emailInvalidTLD: true,
-      };
-    }
-
-    return null;
-  }
-
-  /**
-   *
-   * @param control The signup form data
-   * This method checks if the password field satisfies the following conditions:
-   * - It does not contain the value of the firstName field
-   * - It does not contain the value of the lastName field
-   */
-  passwordValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const firstName = control.get('firstName')?.value;
-    const lastName = control.get('lastName')?.value;
-    return this.getPasswordErrors(password, firstName, lastName);
-  }
-
-  /**
-   * This method returns a single ValidationError if the password contains either the first or last name.
-   * The check is case-insensitive.
-   */
-  getPasswordErrors(
-    password: string,
-    firstName: string,
-    lastName: string
-  ): ValidationErrors | null {
-    password = password.toLowerCase();
-    firstName = firstName.toLowerCase();
-    lastName = lastName.toLowerCase();
-
-    if (password && firstName && password.includes(firstName)) {
-      return {
-        passwordIncludesFirstName: true,
-      };
-    }
-
-    if (password && lastName && password.includes(lastName)) {
-      return {
-        passwordIncludesLastName: true,
-      };
-    }
-
-    return null;
-  }
 
   /**
    * Submit handler for the form. Passes form data to SignupService and subscribes to the results.
