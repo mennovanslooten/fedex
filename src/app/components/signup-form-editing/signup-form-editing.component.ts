@@ -24,7 +24,7 @@ export class SignupFormEditingComponent implements OnInit {
     {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [this.emailValidator]],
       password: [
         '',
         [
@@ -62,6 +62,32 @@ export class SignupFormEditingComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
+
+  /**
+   *
+   * @param control The email control
+   * This method validates the email address against the standard Angular required and email validators.
+   * If those do not produce any errors, the value is checked with a regular expression for a 2+ letter TLD.
+   */
+  emailValidator(control: AbstractControl): ValidationErrors | null {
+    const standardError =
+      Validators.required(control) || Validators.email(control);
+
+    if (standardError) {
+      return standardError;
+    }
+
+    const email = control.value as string;
+    const rx = /@.+\.\w{2,}$/;
+
+    if (!rx.test(email)) {
+      return {
+        emailInvalidTLD: true,
+      };
+    }
+
+    return null;
+  }
 
   /**
    *

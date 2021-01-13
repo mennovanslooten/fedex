@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { SignupErrorComponent } from '../signup-error/signup-error.component';
 import { SignupInputComponent } from '../signup-input/signup-input.component';
 
@@ -44,5 +49,11 @@ describe('SignupFormEditingComponent', () => {
     const lastName = 'aBc';
     const error = component.getPasswordErrors(password, '', lastName);
     expect(error).toEqual({ passwordIncludesLastName: true });
+  });
+
+  it('should validate email address for TLD', () => {
+    const email = 'me@me';
+    const error = component.emailValidator(new FormControl(email));
+    expect(error).toEqual({ emailInvalidTLD: true });
   });
 });

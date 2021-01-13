@@ -43,6 +43,8 @@ export class SignupErrorComponent implements OnInit {
       pattern: 'Must contain upper and lowercase characters.',
       passwordIncludesFirstName: 'Password can not include first name.',
       passwordIncludesLastName: 'Password can not include last name.',
+      emailInvalidTLD:
+        'This email seems to be missing a TLD (e.g. .com, .nl, .net).',
     };
 
     return messages[key] || `Unknown validation error ${key}`;
@@ -59,6 +61,8 @@ export class SignupErrorComponent implements OnInit {
     if (!this.isInvalid(control)) {
       return [];
     }
+
+    // console.log(control.errors);
 
     return Object.entries(control.errors).map(([key, value]) =>
       this.getErrorMessage(key, value)
