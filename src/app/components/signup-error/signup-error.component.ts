@@ -44,7 +44,7 @@ export class SignupErrorComponent implements OnInit {
       passwordIncludesFirstName: 'Password can not include first name.',
       passwordIncludesLastName: 'Password can not include last name.',
       emailInvalidTLD:
-        'This email seems to be missing a TLD (e.g. .com, .nl, .net).',
+        'This email seems to be missing a top level domain like .com, .nl or .net.',
     };
 
     return messages[key] || `Unknown validation error ${key}`;
